@@ -1,5 +1,9 @@
 # Realtime Speech Transcription + Translation
 
+## Demo Video
+
+[![Watch the demo](https://img.youtube.com/vi/eWEqhg1yfn4/maxresdefault.jpg)](https://www.youtube.com/watch?v=eWEqhg1yfn4&hd=1)
+
 Low-latency realtime speech transcription and translation system built with Python and the OpenAI Realtime API.
 
 A realtime speech transcription and translation tool built with Python and OpenAI Realtime API.
