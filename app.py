@@ -1,5 +1,6 @@
 import re
 import threading
+from concurrent.futures import ThreadPoolExecutor
 
 from config import load_config
 from realtime_client import RealtimeTranscriptionClient
@@ -16,6 +17,8 @@ class TranslationCoordinator:
         self.translator = translator
         self.lock = threading.Lock()
         self.pending_text = ""
+        # 翻訳スレッドは最大2並列に制限
+        self._executor = ThreadPoolExecutor(max_workers=2)
 
     def add_transcript(self, text: str) -> None:
         cleaned = self._normalize_join(text)
@@ -62,7 +65,10 @@ class TranslationCoordinator:
             except Exception as e:
                 self.ui.set_status(f"Translate error: {e}")
 
-        threading.Thread(target=work, daemon=True).start()
+        self._executor.submit(work)
+
+    def shutdown(self) -> None:
+        self._executor.shutdown(wait=False)
 
     @staticmethod
     def _normalize_join(text: str) -> str:
@@ -107,6 +113,7 @@ def main() -> None:
 
     def on_close():
         client.stop()
+        coordinator.shutdown()
         ui.root.destroy()
 
     ui.set_start_callback(start_app)

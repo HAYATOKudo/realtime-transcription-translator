@@ -30,7 +30,7 @@ def load_config() -> AppConfig:
 
     return AppConfig(
         openai_api_key=api_key,
-        realtime_model=os.getenv("REALTIME_MODEL", "gpt-realtime-mini"),
+        realtime_model=os.getenv("REALTIME_MODEL", "gpt-4o-realtime-preview"),
         transcribe_model=os.getenv("TRANSCRIBE_MODEL", "gpt-4o-mini-transcribe"),
         text_model=os.getenv("TEXT_MODEL", "gpt-4o-mini"),
         app_title=os.getenv("APP_TITLE", "Realtime EN/JA Transcriber"),

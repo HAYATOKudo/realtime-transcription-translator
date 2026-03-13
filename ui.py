@@ -85,8 +85,7 @@ class AppUI:
         self._queue.put(("status", text))
 
     def clear_all(self) -> None:
-        self.english_box.delete("1.0", tk.END)
-        self.japanese_box.delete("1.0", tk.END)
+        self._queue.put(("clear", None))
 
     def run(self) -> None:
         self.root.mainloop()
@@ -121,5 +120,8 @@ class AppUI:
                 self.japanese_box.see(tk.END)
             elif kind == "status":
                 self.status_var.set(payload)
+            elif kind == "clear":
+                self.english_box.delete("1.0", tk.END)
+                self.japanese_box.delete("1.0", tk.END)
 
         self.root.after(50, self._drain_queue)

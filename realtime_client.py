@@ -116,6 +116,13 @@ class RealtimeTranscriptionClient:
     async def _shutdown(self) -> None:
         self._stop_microphone()
 
+        # 番兵値を入れて _send_audio_loop のブロックを解除する
+        if self._audio_queue is not None:
+            try:
+                self._audio_queue.put_nowait(None)
+            except Exception:
+                pass
+
         if self.ws is not None:
             try:
                 await self.ws.close()
@@ -207,7 +214,16 @@ class RealtimeTranscriptionClient:
     async def _send_audio_loop(self) -> None:
         while self.running and self.ws is not None and self._audio_queue is not None:
             try:
-                payload = await self._audio_queue.get()
+                # タイムアウト付きで取得し、stop()後に確実に抜けられるようにする
+                try:
+                    payload = await asyncio.wait_for(self._audio_queue.get(), timeout=0.5)
+                except asyncio.TimeoutError:
+                    continue
+
+                # 番兵値が入ったらループ終了
+                if payload is None:
+                    break
+
                 event = {
                     "type": "input_audio_buffer.append",
                     "audio": payload,

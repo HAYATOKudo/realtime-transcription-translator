@@ -1,8 +1,5 @@
 # Realtime Speech Transcription + Translation
 
-## Demo Video
-
-[![Watch the demo](https://img.youtube.com/vi/eWEqhg1yfn4/maxresdefault.jpg)](https://www.youtube.com/watch?v=eWEqhg1yfn4&hd=1)
 
 Low-latency realtime speech transcription and translation system built with Python and the OpenAI Realtime API.
 
@@ -13,6 +10,9 @@ This application captures system audio (Stereo Mix or microphone), performs real
 It is designed for meetings, live subtitles, language learning, and realtime communication.
 
 ---
+## Demo Video
+
+[![Watch the demo](https://img.youtube.com/vi/eWEqhg1yfn4/maxresdefault.jpg)](https://www.youtube.com/watch?v=eWEqhg1yfn4&hd=1)
 
 # Features
 
